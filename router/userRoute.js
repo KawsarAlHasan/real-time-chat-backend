@@ -1,16 +1,16 @@
 const express = require("express");
-const { createUser } = require("../controllers/userController");
+const {
+  createUser,
+  loginUser,
+  getMeUser,
+} = require("../controllers/userController");
 
-// const varifyToken = require("../middleware/varifyToken");
+const varifyToken = require("../middleware/verifyUserToken");
 
 const router = express.Router();
 
 router.post("/signup", createUser);
-// router.post("/login", loginUser);
-// router.get("/all", getAllUsers);
-// router.get("/me", getMe);
-// router.get("/:id", getOneUser);
-// router.patch("/:id", varifyToken, updateUser);
-// router.delete("/:id", deleteUser);
+router.post("/login", loginUser);
+router.get("/me", varifyToken, getMeUser);
 
 module.exports = router;
