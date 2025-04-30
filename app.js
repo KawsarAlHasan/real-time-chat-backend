@@ -6,6 +6,7 @@ app.use(express.json());
 
 // router
 app.use("/api/v1/user", require("./router/userRoute"));
+app.use("/api/v1/forgot", require("./router/forgotPasswordRoute"));
 
 app.get("/", (req, res) => {
   res.status(200).send("Chat Server is working");
