@@ -3,16 +3,12 @@ const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 const { dbConnect } = require("./config/dbConnect");
 const cors = require("cors");
-const app = express();
 dotenv.config();
+const app = require("./app");
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.status(200).send("Chat Server is working");
-});
 
 // database connection
 dbConnect();
