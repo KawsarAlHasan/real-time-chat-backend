@@ -95,3 +95,32 @@ exports.getMeUser = async (req, res, next) => {
     });
   }
 };
+
+// get all user with filter
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const { firstName, lastName, email, status, isOnline } = req.query;
+
+    const filter = {};
+
+    if (firstName) filter.firstName = firstName;
+    if (lastName) filter.lastName = lastName;
+    if (email) filter.email = email;
+    if (status) filter.status = status;
+    if (isOnline !== undefined) filter.isOnline = isOnline === "true"; // string to boolean
+
+    const result = await User.find(filter);
+
+    res.status(200).json({
+      success: true,
+      message: "Get All User",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};

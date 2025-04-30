@@ -3,6 +3,7 @@ const {
   createUser,
   loginUser,
   getMeUser,
+  getAllUsers,
 } = require("../controllers/userController");
 
 const varifyToken = require("../middleware/verifyUserToken");
@@ -12,5 +13,6 @@ const router = express.Router();
 router.post("/signup", createUser);
 router.post("/login", loginUser);
 router.get("/me", varifyToken, getMeUser);
+router.get("/all", getAllUsers);
 
 module.exports = router;
