@@ -1,33 +1,43 @@
 const bcrypt = require("bcryptjs");
-const { generateToken } = require("../config/userToken");
-const User = require("../models/userModel");
-const AppError = require("../utils/appError");
+const { generateToken } = require("../config/user.token");
+const User = require("../models/user.model");
 
 // sign up
 exports.createUser = async (req, res, next) => {
   try {
+    const { firstName, lastName, email, password } = req.body;
+    if (!firstName || !lastName || !email || !password) {
+      return res.status(401).json({
+        success: false,
+        error:
+          "Please provide firstName, lastName, email & password field in body",
+      });
+    }
+
+    const checkUser = await User.findOne({ email });
+    if (checkUser) {
+      return res.status(409).json({
+        success: false,
+        error: "Email already exists",
+      });
+    }
+
     const user = await User.create(req.body);
     const token = generateToken(user);
     res.status(201).json({
       status: true,
-      message: "User created",
+      message: "User Signup successfully",
       data: {
         user: user,
         token,
       },
     });
   } catch (error) {
-    if (error.code === 11000) {
-      return next(new AppError("Email already exists", 409));
-    }
-    if (error.name === "ValidationError") {
-      const errors = {};
-      for (let key in error.errors) {
-        errors[key] = error.errors[key].message;
-      }
-      return next(new AppError("Validation failed", 400, errors));
-    }
-    next(error);
+    res.status(500).send({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
   }
 };
 

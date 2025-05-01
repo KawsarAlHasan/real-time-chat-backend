@@ -1,8 +1,8 @@
 const bcrypt = require("bcryptjs");
-const sendResetEmail = require("../middleware/forgotEmail");
-const ForgotPassword = require("../models/forgotPasswordModel");
-const { generateToken } = require("../config/userToken");
-const User = require("../models/userModel");
+const sendResetEmail = require("../middleware/forgot.email");
+const ForgotPassword = require("../models/forgot.password.model");
+const { generateToken } = require("../config/user.token");
+const User = require("../models/user.model");
 
 // send reset code on email
 exports.forgotPassword = async (req, res) => {

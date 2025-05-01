@@ -10,7 +10,7 @@ const ForgotPasswordSchema = mongoose.Schema({
     type: String,
     required: true,
     lowercase: true,
-    match: [/\S+@\S+\.\S+/, "is invalid"], // Simple email validation
+    match: [/\S+@\S+\.\S+/, "is invalid"],
   },
   reset_code_expire: {
     type: Date,

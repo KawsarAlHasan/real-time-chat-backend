@@ -1,12 +1,12 @@
 const express = require("express");
+
+const varifyToken = require("../middleware/verify.user.token");
 const {
   createUser,
   loginUser,
   getMeUser,
   getAllUsers,
-} = require("../controllers/userController");
-
-const varifyToken = require("../middleware/verifyUserToken");
+} = require("../controllers/user.controller");
 
 const router = express.Router();
 
