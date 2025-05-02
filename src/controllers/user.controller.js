@@ -5,12 +5,11 @@ const User = require("../models/user.model");
 // sign up
 exports.createUser = async (req, res, next) => {
   try {
-    const { firstName, lastName, email, password } = req.body;
-    if (!firstName || !lastName || !email || !password) {
+    const { name, email, password } = req.body;
+    if (!name || !email || !password) {
       return res.status(401).json({
         success: false,
-        error:
-          "Please provide firstName, lastName, email & password field in body",
+        error: "Please provide name, email & password field in body",
       });
     }
 
@@ -109,12 +108,11 @@ exports.getMeUser = async (req, res, next) => {
 // get all user with filter
 exports.getAllUsers = async (req, res, next) => {
   try {
-    const { firstName, lastName, email, status, isOnline } = req.query;
+    const { name, email, status, isOnline } = req.query;
 
     const filter = {};
 
-    if (firstName) filter.firstName = firstName;
-    if (lastName) filter.lastName = lastName;
+    if (name) filter.name = name;
     if (email) filter.email = email;
     if (status) filter.status = status;
     if (isOnline !== undefined) filter.isOnline = isOnline === "true"; // string to boolean
