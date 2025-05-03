@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const { generateToken } = require("../config/user.token");
 const User = require("../models/user.model");
+const mongoose = require("mongoose");
 
 // sign up
 exports.createUser = async (req, res, next) => {
@@ -52,6 +53,7 @@ exports.loginUser = async (req, res, next) => {
     }
 
     const userEmail = await User.findOne({ email });
+
     if (!userEmail) {
       return res.status(401).json({
         success: false,
@@ -126,6 +128,42 @@ exports.getAllUsers = async (req, res, next) => {
     });
   } catch (error) {
     res.status(400).json({
+      success: false,
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
+
+// Get single user by ID
+exports.getUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    // Validate if ID is valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid user ID format",
+      });
+    }
+
+    const user = await User.findById(id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User retrieved successfully",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
       success: false,
       message: "Internal Server Error",
       error: error.message,
