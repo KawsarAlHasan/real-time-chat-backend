@@ -12,6 +12,10 @@ const UserSchema = mongoose.Schema(
       default: "active",
     },
     isOnline: { type: Boolean, default: true },
+
+    lastSeen: {
+      type: Date,
+    },
   },
   { timestamps: true }
 );
